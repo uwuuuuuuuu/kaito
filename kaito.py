@@ -74,7 +74,6 @@ Put the numbers in order on how you want to nuke the account (You don't have to 
                 for friend in data[token]['friends']:
                     repo.title(f"Removing friends for {data[token]['info']['username']}... || {amount}/{len(data[token]['friends'])}")
                     pool.add_task(repo.remove_friend,friend['id'],headers)
-                    pool.wait_completion()
                     amount += 1
         if mode == "2":
             for token in valid:
@@ -88,7 +87,6 @@ Put the numbers in order on how you want to nuke the account (You don't have to 
                     else:
                         pool.add_task(repo.leave_guild,headers, server['id']) 
                         time.sleep(0.01)
-                    pool.wait_completion()
                     amount += 1
         if mode == "3":
             for token in valid:
@@ -97,7 +95,6 @@ Put the numbers in order on how you want to nuke the account (You don't have to 
                 for channel in data[token]['dm_channels']:
                     repo.title(f"Closing all DMS for {data[token]['info']['username']}... || {amount}/{len(data[token]['dm_channels'])}")
                     pool.add_task(repo.close,channel['id'],headers)
-                    pool.wait_completion()
                     amount += 1
         if mode == "4":
             for token in valid:
@@ -112,7 +109,6 @@ Put the numbers in order on how you want to nuke the account (You don't have to 
                 for x in range(count):
                     repo.title(f"Creating max servers for {data[token]['info']['username']}... || {amount}/{count}")
                     pool.add_task(repo.create_guild,name,headers)
-                    pool.wait_completion()
                     amount += 1
         if mode == "5":
             amount = 0
@@ -120,8 +116,8 @@ Put the numbers in order on how you want to nuke the account (You don't have to 
             for token in valid:
                 repo.date_send(f"glitched token {token}")
                 pool.add_task(repo.glitch,headers)
-                pool.wait_completion()
                 amount += 1
+    pool.wait_completion()
     repo.multi_clearer()
     repo.ui(valid)
     repo.date_send(f"Do you want to exit? (Y/N)")
